@@ -115,6 +115,7 @@ sub dsl_keywords {
         true                 => { is_global => 1 },
         upload               => { is_global => 0 },
         uri_for              => { is_global => 0 },
+        uri_for_route        => { is_global => 0 },
         var                  => { is_global => 0 },
         vars                 => { is_global => 0 },
         warning              => { is_global => 1 },
@@ -422,6 +423,8 @@ sub upload { shift; $Dancer2::Core::Route::REQUEST->upload(@_); }
 sub captures { $Dancer2::Core::Route::REQUEST->captures }
 
 sub uri_for { shift; $Dancer2::Core::Route::REQUEST->uri_for(@_); }
+
+sub uri_for_route { shift->app->uri_for_route(@_); }
 
 sub splat { $Dancer2::Core::Route::REQUEST->splat }
 
