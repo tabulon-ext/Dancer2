@@ -11,7 +11,6 @@ use URI;
 use URI::Escape;
 use Safe::Isa;
 use Hash::MultiValue;
-use Module::Runtime 'require_module';
 use Ref::Util qw< is_ref is_arrayref is_hashref >;
 
 use Dancer2::Core::Types;
@@ -37,10 +36,20 @@ sub $_ { \$_[0]->env->{ 'HTTP_' . ( uc "$_" ) } }
 1;
 _EVAL
 
+eval {
+    require Unicode::UTF8;
+    no warnings qw<redefine once>;
+    *__decode = sub { Unicode::UTF8::decode_utf8($_[0]) };
+    1;
+} or do {
+    no warnings qw<redefine once>;
+    *__decode = sub { decode( 'UTF-8', $_[0] ) };
+};
+
 # check presence of XS module to speedup request
-our $XS_URL_DECODE         = eval { require_module('URL::Encode::XS'); 1; };
-our $XS_PARSE_QUERY_STRING = eval { require_module('CGI::Deurl::XS');  1; };
-our $XS_HTTP_COOKIES       = eval { require_module('HTTP::XSCookies'); 1; };
+our $XS_URL_DECODE         = eval { require URL::Encode::XS; 1; };
+our $XS_PARSE_QUERY_STRING = eval { require CGI::Deurl::XS;  1; };
+our $XS_HTTP_COOKIES       = eval { require HTTP::XSCookies; 1; };
 
 our $_id = 0;
 
@@ -172,6 +181,15 @@ sub data { $_[0]->{'data'} ||= $_[0]->deserialize() }
 sub deserialize {
     my $self = shift;
 
+    # don't attempt to deserialize if the form is 'multipart/form-data'
+    if (
+        $self->content_type 
+        && $self->content_type =~ /^multipart\/form-data/i 
+        ) {
+        return;
+    }
+
+
     my $serializer = $self->serializer
         or return;
 
@@ -276,7 +294,7 @@ sub uri_base {
 }
 
 sub dispatch_path {
-    warn q{request->dispatch_path is deprecated};
+    warn q{DEPRECATED: request->dispatch_path. Please use request->path instead};
     return shift->path;
 }
 
@@ -392,7 +410,7 @@ sub _decode {
     return if not defined $h;
 
     if ( !is_ref($h) && !utf8::is_utf8($h) ) {
-        return decode( 'UTF-8', $h );
+        return __decode($h);
     }
     elsif ( ref($h) eq 'Hash::MultiValue' ) {
         return Hash::MultiValue->from_mixed(_decode($h->as_hashref_mixed));
@@ -798,7 +816,7 @@ Alias to C<input_handle> method below.
 
 =method input_handle
 
-Alias to the PSGI input handle (C<< <request->env->{psgi.input}> >>)
+Alias to the PSGI input handle (C<< request->env->{'psgi.input'} >>)
 
 =method is_ajax
 

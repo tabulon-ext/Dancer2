@@ -4,7 +4,7 @@ Dancer2 - Lightweight yet powerful web application framework
 
 # VERSION
 
-version 0.301004
+version 0.400001
 
 # DESCRIPTION
 
@@ -73,6 +73,34 @@ complete outline on where to go for help.
     [Dancer2::Manual::Migration](https://metacpan.org/pod/Dancer2%3A%3AManual%3A%3AMigration) provides the most up-to-date instruction on
     how to convert a Dancer (1) based application to Dancer2.
 
+### Other Documentation
+
+- Core and Community Policy, and Standards of Conduct
+
+    The ["Dancer core and community policy, and standards of conduct"](#dancer-core-and-community-policy-and-standards-of-conduct) defines
+    what constitutes acceptable behavior in our community, what behavior is considered
+    abusive and unacceptable, and what steps will be taken to remediate inappropriate
+    and abusive behavior. By participating in any public forum for Dancer or its
+    community, you are agreeing to the terms of this policy.
+
+- GitHub Wiki
+
+    Our [GitHub wiki](https://github.com/PerlDancer/Dancer2/wiki) has community-contributed
+    documentation, as well as other information that doesn't quite fit within
+    this manual.
+
+- Contributing
+
+    The [contribution guidelines](https://github.com/PerlDancer/Dancer2/blob/master/Contributing.md) describe
+    how to set up your development environment to contribute to the development of Dancer2,
+    Dancer2's Git workflow, submission guidelines, and various coding standards.
+
+- Deprecation Policy
+
+    The [deprecation policy](https://metacpan.org/pod/Dancer2%3A%3ADeprecationPolicy) defines the process for removing old,
+    broken, unused, or outdated code from the Dancer2 codebase. This policy is critical
+    for guiding and shaping future development of Dancer2.
+
 # FUNCTIONS
 
 ## my $runner=runner();
@@ -99,6 +127,7 @@ We are also on IRC: #dancer on irc.perl.org.
 
     Alberto Simões
     Alexis Sukrieh
+    D Ruth Holloway (GeekRuthie)
     Damien Krotkine
     David Precious
     Franck Cuny
@@ -108,12 +137,12 @@ We are also on IRC: #dancer on irc.perl.org.
     Russell Jenkins
     Sawyer X
     Stefan Hornburg (Racke)
-    Steven Humphrey
     Yanick Champoux
 
 ## CORE DEVELOPERS EMERITUS
 
     David Golden
+    Steven Humphrey
 
 ## CONTRIBUTORS
 
@@ -166,10 +195,12 @@ We are also on IRC: #dancer on irc.perl.org.
     Dinis Rebolo
     dtcyganov
     Elliot Holden
+    Emil Perhinschi
     Erik Smit
     Fayland Lam
     ferki
     Gabor Szabo
+    GeekRuthie
     geistteufel
     Gideon D'souza
     Gil Magno
@@ -211,6 +242,7 @@ We are also on IRC: #dancer on irc.perl.org.
     Mateu X Hunter
     Matt Phillips
     Matt S Trout
+    mauke
     Maurice
     MaxPerl
     Ma_Sys.ma
@@ -248,7 +280,9 @@ We are also on IRC: #dancer on irc.perl.org.
     Shlomi Fish
     Slava Goltser
     Snigdha
+    Steve Bertrand
     Steve Dondley
+    Steven Humphrey
     Tatsuhiko Miyagawa
     Timothy Alexis Vass
     Tina Müller
@@ -268,7 +302,7 @@ Dancer Core Developers
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2021 by Alexis Sukrieh.
+This software is copyright (c) 2023 by Alexis Sukrieh.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

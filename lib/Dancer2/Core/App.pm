@@ -8,7 +8,7 @@ use Module::Runtime    'is_module_name';
 use Safe::Isa;
 use Sub::Quote;
 use File::Spec;
-use Module::Runtime    'use_module';
+use Module::Runtime    qw< require_module use_module >;
 use List::Util         ();
 use Ref::Util          qw< is_ref is_globref is_scalarref >;
 
@@ -884,6 +884,19 @@ sub template {
         and $self->setup_session;
 
     # return content
+    if ($self->has_with_return) {
+        my $old_with_return = $self->with_return;
+        my $local_response;
+        $self->set_with_return( sub {
+            $local_response ||= shift;
+        });
+        my $content = $template->process( @_ );
+        $self->set_with_return($old_with_return);
+        if ($local_response) {
+            $self->with_return->($local_response);
+        }
+        return $content;
+    }
     return $template->process( @_ );
 }
 
@@ -1226,8 +1239,8 @@ sub add_route {
 
     my $route = Dancer2::Core::Route->new(
         type_library => $self->config->{type_library},
-        %route_attrs,
         prefix => $self->prefix,
+        %route_attrs,
     );
 
     my $method = $route->method;

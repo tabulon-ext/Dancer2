@@ -1,4 +1,4 @@
-requires 'perl', 5.010001;
+requires 'perl', 5.014000;
 requires 'Attribute::Handlers';
 requires 'Carp';
 requires 'Clone';
@@ -69,6 +69,7 @@ recommends 'Scope::Upper';
 recommends 'Type::Tiny::XS';
 recommends 'URL::Encode::XS';
 recommends 'YAML::XS';
+recommends 'Unicode::UTF8';
 
 suggests 'Fcntl';
 suggests 'MIME::Types';

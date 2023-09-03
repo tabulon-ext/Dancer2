@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: '*'
+    branches: '**'
   pull_request:
-    branches: '*'
+    branches: '**'
   schedule:
     - cron: '42 5 * * *'
 
@@ -88,6 +88,7 @@ jobs:
         perl-version:
           - '5.32'
           - "5.30"
+          - "5.14"
 #          - "5.28"
 #          - "5.26"
 #          - "5.24"
@@ -95,9 +96,6 @@ jobs:
 #          - "5.20"
 #          - "5.18"
 #          - "5.16"
-#          - "5.14"
-          - "5.12"  # Not available?
-          - "5.10"  # Not available?
 
     container:
       image: perl:${{ matrix.perl-version }}
@@ -145,7 +143,6 @@ jobs:
       - name: Testing selected Plugins
         run: |
             cpanm --test-only --verbose Dancer2::Plugin::Auth::HTTP::Basic::DWIW
-            cpanm --test-only --verbose Dancer2::Plugin::Minion
             cpanm --test-only --verbose Dancer2::Template::Handlebars
             cpanm --test-only --verbose Dancer2::Session::Cookie
             cpanm --test-only --verbose Dancer2::Plugin::Email

@@ -433,32 +433,32 @@ END
 
             # FIXME: AUTOLOAD might pick up on this
             sub dancer_app {
-                Carp::carp "Plugin DSL method 'dancer_app' is deprecated. "
-                         . "Use '\\\$self->app' instead'.\n";
+                Carp::carp "DEPRECATED: Plugin DSL method 'dancer_app'. "
+                         . "Please use '\\\$self->app' instead'.\n";
 
                 \$_[0]->app;
             }
 
             # FIXME: AUTOLOAD might pick up on this
             sub request {
-                Carp::carp "Plugin DSL method 'request' is deprecated. "
-                         . "Use '\\\$self->app->request' instead'.\n";
+                Carp::carp "DEPRECATED: Plugin DSL method 'request'. "
+                         . "Please use '\\\$self->app->request' instead'.\n";
 
                 \$_[0]->app->request;
             }
 
             # FIXME: AUTOLOAD might pick up on this
             sub var {
-                Carp::carp "Plugin DSL method 'var' is deprecated. "
-                         . "Use '\\\$self->app->request->var' instead'.\n";
+                Carp::carp "DEPRECATED: Plugin DSL method 'var'. "
+                         . "Please use '\\\$self->app->request->var' instead'.\n";
 
                 shift->app->request->var(\@_);
             }
 
             # FIXME: AUTOLOAD might pick up on this
             sub hook {
-                Carp::carp "Plugin DSL method 'hook' is deprecated. "
-                         . "Use '\\\$self->app->add_hook' instead'.\n";
+                Carp::carp "DEPRECATED: Plugin DSL method 'hook'. "
+                         . "Please use '\\\$self->app->add_hook' instead'.\n";
 
                 shift->app->add_hook(
                     Dancer2::Core::Hook->new( name => shift, code => shift ) );
@@ -501,7 +501,7 @@ sub _find_consumer {
     #    or croak('Could not find Dancer2 app');
 
     return $class;
-};
+}
 
 # This has to be called for now at the end of every plugin package, in order to
 # map the keywords of the associated app to the plugin, so that these keywords
@@ -539,8 +539,12 @@ sub register_plugin {
                     no strict 'refs';
                     $plugin_module->can($keyword)
                       or *{"${plugin_module}::$keyword"} = sub {
-                          my $coderef = shift()->app->name->can($keyword);
-                          $coderef->(@_);
+                        $_[0]
+                          ? do {
+                            my $cb = shift()->app->name->can($keyword);
+                            $cb->(@_);
+                          }
+                          : $app_dsl_cb->(@_);
                       };
                 }
             });
